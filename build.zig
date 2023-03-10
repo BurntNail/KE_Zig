@@ -11,24 +11,38 @@ pub fn build(b: *std.build.Builder) void {
     // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall.
     const mode = b.standardReleaseOptions();
 
-    const exe = b.addExecutable("KE_Zig", "src/main.zig");
-    exe.setTarget(target);
-    exe.setBuildMode(mode);
-    exe.install();
+    const mandlebrot_exe = b.addExecutable("ZigMandlebrot", "src/mandlebrot.zig");
+    mandlebrot_exe.setTarget(target);
+    mandlebrot_exe.setBuildMode(mode);
+    mandlebrot_exe.install();
 
-    const run_cmd = exe.run();
-    run_cmd.step.dependOn(b.getInstallStep());
+    const mandlebrot_run_cmd = mandlebrot_exe.run();
+    mandlebrot_run_cmd.step.dependOn(b.getInstallStep());
     if (b.args) |args| {
-        run_cmd.addArgs(args);
+        mandlebrot_run_cmd.addArgs(args);
     }
 
-    const run_step = b.step("run", "Run the app");
-    run_step.dependOn(&run_cmd.step);
+    const mandlebrot_run_step = b.step("mandlebrot", "Run Mandlebrot");
+    mandlebrot_run_step.dependOn(&mandlebrot_run_cmd.step);
 
-    const exe_tests = b.addTest("src/main.zig");
-    exe_tests.setTarget(target);
-    exe_tests.setBuildMode(mode);
+    const minigrep_exe = b.addExecutable("ZigMinigrep", "src/minigrep.zig");
+    minigrep_exe.setTarget(target);
+    minigrep_exe.setBuildMode(mode);
+    minigrep_exe.install();
 
-    const test_step = b.step("test", "Run unit tests");
-    test_step.dependOn(&exe_tests.step);
+    const minigrep_run_cmd = minigrep_exe.run();
+    minigrep_run_cmd.step.dependOn(b.getInstallStep());
+    if (b.args) |args| {
+        minigrep_run_cmd.addArgs(args);
+    }
+
+    const minigrep_run_step = b.step("minigrep", "Run Minigrep");
+    minigrep_run_step.dependOn(&minigrep_run_cmd.step);
+
+    // const exe_tests = b.addTest("src/main.zig");
+    // exe_tests.setTarget(target);
+    // exe_tests.setBuildMode(mode);
+
+    // const test_step = b.step("test", "Run unit tests");
+    // test_step.dependOn(&exe_tests.step);
 }

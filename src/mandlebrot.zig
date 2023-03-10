@@ -27,7 +27,7 @@ pub fn main() !void {
 
     // while (y < HEIGHT) : (y += 1.0) {
     //     while (x < WIDTH) : (x += 1.0) {
-            
+
     //     }
     // } TODO: check speed of this vs below
 
