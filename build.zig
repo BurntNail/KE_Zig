@@ -1,5 +1,15 @@
 const std = @import("std");
 
+//https://zig.news/xq/zig-build-explained-part-2-1850
+
+// const pkgs = struct {
+//     const ebv = std.build.Pkg{
+//         .name = "ebv",
+//         .source = .{ .path = "src/expandablebitvec.zig" },
+//         .dependencies = &[_]std.build.Pkg{},
+//     };
+// };
+
 pub fn build(b: *std.build.Builder) void {
     // Standard target options allows the person running `zig build` to choose
     // what target to build for. Here we do not override the defaults, which
@@ -12,6 +22,7 @@ pub fn build(b: *std.build.Builder) void {
     const mode = b.standardReleaseOptions();
 
     const mandlebrot_exe = b.addExecutable("ZigMandlebrot", "src/mandlebrot.zig");
+    // mandlebrot_exe.addPackage(pkgs.ebv);
     mandlebrot_exe.setTarget(target);
     mandlebrot_exe.setBuildMode(mode);
     mandlebrot_exe.install();
@@ -26,6 +37,7 @@ pub fn build(b: *std.build.Builder) void {
     mandlebrot_run_step.dependOn(&mandlebrot_run_cmd.step);
 
     const minigrep_exe = b.addExecutable("ZigMinigrep", "src/minigrep.zig");
+    // minigrep_exe.add
     minigrep_exe.setTarget(target);
     minigrep_exe.setBuildMode(mode);
     minigrep_exe.install();
